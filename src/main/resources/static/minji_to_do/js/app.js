@@ -2,6 +2,7 @@
  // function 함수면(입력 매개변수){
  //   입력매개변수를 사용한 처리문...
  // }
+
  // 이벤트를 만드는(이벤트를 생성하는) 태그
  //1. html태그를 자바스크립트에서 쓰려면
  //2. html태그를 찾는 querySelector(셀렉터이름)
@@ -94,11 +95,11 @@ addButton.addEventListener(
 // loadStronge을 이용한 행운뽑기
 // 1. 포춘종류 배열만들기
 const fortunes = [
-	 "오늘은 행운이 가득해! ",
-	 "멋진 일이 생길 거야!",
-	 "새로운 도전을 시작해봐!",
-	 "오늘은 맛있는 걸 먹자!",
-	 "너는 충분히 잘하고 있어! "
+	 "오늘은 행운이 가득해! 🍀",
+	 "멋진 일이 생길 거야! 💎",
+	 "새로운 도전을 시작해봐! 🚀",
+	 "오늘은 맛있는 걸 먹자! 🍰",
+	 "너는 충분히 잘하고 있어! 💙"
   	];
 // 2. 선택된 포춘을 저장하는 포춘변수를 초기화
 let currentFortune = "";
@@ -114,10 +115,14 @@ function drawFortune(){
 	// Math.random() : 0.0 <=  난수 <= 1.0보다 작은 실수
 	const index = Math.floor(
 		Math.random() * fortunes.length
-	) //배열.length : 배열의 크기
-	
+		//5.5
+	); //배열.length : 배열의 크기
+	//alert("index = " + index);
 	//현재 랜덤 행운 뽑기
-	currentFortune = fortunes[index];
+	   currentFortune = fortunes[index];
+	//alert(
+		//index + " 번째 행운: " +
+	   // currentFortune);
 	
 	//현재 운세의 내용을 result 태그에 출력
 	document.querySelector("#result").textContent = currentFortune;
@@ -125,13 +130,48 @@ function drawFortune(){
 }
 // 4. 포츈을 저장하는 함수 정의 saveFortune() 정의
 function saveFortune(){
-	
+    // 1. currentFortune값이 있는가 조사
+	//    없으면 실행취소
+	if (currentFortune === "") {
+		alert("먼저 행운을 뽑아 주세요");
+		return;
+	}
+	// 2. localStorage 웹브라우저 저장소에
+	//    영구저장 localStorage.setItem사용
+	localStorage.setItem(
+		"myFortune",
+		currentFortune
+	);
+	alert("행운을 저장했어요!");
 }
 // 5. 저장된 포츈을 불러옴. 함수 정의 loadFortune() 정의
 function loadFortune(){
-	
+	 // 1. localStorage에서 값 가져오기
+	 // localStorage.getItem(키변수)
+	 const saved = localStorage.getItem("myFortune");
+	 // 2. 읽어온 값이 비었으면 "저장 행운 없음!"
+	 if (saved === null) {
+		alert("저장된 행운이 없어요!");
+		return;  // 더이상 함수 진행하면 안되므로
+	 }
+	 // 3. 읽어온 값이 있으면 #result 태그에
+	 //    읽어온 값 출력
+	 currentFortune = saved;
+	 document.querySelector("#result").textContent =
+	    saved;
 }
 // 6. 저장된 포츈정보 삭제함. 함수 정의 deleteFortune() 정의
 function deleteFortune(){
+	// 1. 로컬스토리지 삭제
+	  localStorage.removeItem("myFortune");
+	// 2. currentFortune도 삭제
+	 currentFortune = "";
+	 // 3. result html 태그 삭제
+	 document.querySelector("#result").textContent =
+	     "저장된 행운을 삭제했어요!";
+	 // 4. 삭제완료 알림
+	  alert("삭제 완료!");
 	
 }
+
+
